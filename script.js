@@ -10,6 +10,21 @@ window.addEventListener('scroll', function() {
     });
 });
 
+// Função para animar elementos durante o scroll
+function animateOnScroll() {
+    const elements = document.querySelectorAll('.animate');
+    elements.forEach(element => {
+        const position = element.getBoundingClientRect().top;
+        const windowHeight = window.innerHeight;
+        if (position < windowHeight - 100) {
+            element.classList.add('in-view');
+        }
+    });
+}
+
+window.addEventListener('scroll', animateOnScroll);
+window.addEventListener('load', animateOnScroll);
+
 function switchLanguage(lang) {
     document.querySelectorAll('[data-lang]').forEach(element => {
         if (element.getAttribute('data-lang') === lang) {
