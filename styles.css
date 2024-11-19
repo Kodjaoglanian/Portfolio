@@ -38,6 +38,7 @@ header {
 
 header.shrink {
     padding: 10px;
+    font-size: 0.8em;
 }
 
 header:hover {
@@ -325,6 +326,10 @@ section.animate {
 
 /* Otimização para mobile */
 @media (max-width: 768px) {
+    header {
+        padding: 10px;
+        font-size: 0.8em;
+    }
     header nav ul {
         flex-direction: column;
         align-items: center;
