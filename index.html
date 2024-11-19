@@ -6,8 +6,23 @@
     <title>Portfólio de Kodjaoglanian</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Adicionar Biblioteca Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
+    <!-- Adicionar Biblioteca GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.1/gsap.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.1/ScrollTrigger.min.js" defer></script>
+    <!-- Adicionar Script Personalizado -->
+    <script src="script.js" defer></script>
 </head>
 <body>
+    <!-- Canvas 3D para o Cabeçalho Interativo -->
+    <canvas id="3d-header"></canvas>
+
+    <!-- Sobreposição de Boas-Vindas -->
+    <div id="welcome-overlay" class="welcome-overlay">
+        <h1>Bem-vindo ao Meu Portfólio</h1>
+    </div>
+
     <header>
         <h1>Kodjaoglanian</h1>
         <nav>
