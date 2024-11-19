@@ -32,8 +32,12 @@ header {
     top: 0;
     z-index: 1000;
     backdrop-filter: blur(10px);
-    transition: background 0.3s ease, transform 0.3s ease;
+    transition: background 0.3s ease, transform 0.3s ease, padding 0.3s ease;
     border-radius: 0 0 20px 20px;
+}
+
+header.shrink {
+    padding: 10px;
 }
 
 header:hover {
