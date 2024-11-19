@@ -1,17 +1,41 @@
 /* styles.css */
+
+/* Reset básico de CSS */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Garantir que html e body não tenham margens ou paddings */
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+/* Remover margens do h1 na sobreposição de boas-vindas */
+.welcome-overlay h1 {
+    margin: 0;
+    font-size: 2.5em; /* Ajuste o tamanho conforme necessário */
+    text-align: center;
+}
+
 body {
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
     background: linear-gradient(135deg, #1c0030 0%, #2b004d 100%);
-    backdrop-filter: blur(10px);
+    /* backdrop-filter: blur(10px); */ /* Comente ou remova esta linha */
+    backdrop-filter: none;
     overflow-x: hidden;
     animation: fadeIn 1s ease-in-out;
     color: #ecf0f1;
     position: relative;
 }
 
+/* Remover a barra preta causada pelo pseudo-elemento body::before */
 body::before {
+    /* 
     content: '';
     position: absolute;
     top: 0;
@@ -21,6 +45,8 @@ body::before {
     background: radial-gradient(circle, transparent, rgba(0, 0, 0, 0.7));
     pointer-events: none;
     z-index: 0;
+    */
+    display: none; /* Completamente remove o pseudo-elemento */
 }
 
 header {
@@ -34,6 +60,7 @@ header {
     backdrop-filter: blur(10px);
     transition: background 0.3s ease, transform 0.3s ease, padding 0.3s ease, top 0.3s ease;
     border-radius: 0 0 20px 20px;
+    margin: 0; /* Assegura que não há margem superior */
 }
 
 header.shrink {
@@ -307,6 +334,7 @@ footer:hover {
 
 body, header, .container, .project, footer {
     animation: fadeIn 1s ease-in-out;
+    transition: all 0.3s ease-in-out;
 }
 
 /* Animação fadeInUp */
@@ -325,6 +353,21 @@ body, header, .container, .project, footer {
 section.animate {
     opacity: 0;
     animation: fadeInUp 1s forwards;
+}
+
+/* Estilos para o Canvas 3D do Cabeçalho */
+#3d-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: -1;
+}
+
+/* Comportamento de Rolagem Suave */
+html {
+    scroll-behavior: smooth;
 }
 
 /* Otimização para mobile */
@@ -357,4 +400,28 @@ section.animate {
         margin: 20px 0;
     }
     /* ...estilos adicionais para responsividade... */
+}
+
+/* Sobreposição de Boas-Vindas */
+.welcome-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(28, 0, 48, 0.95);
+    color: #ecf0f1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1500; /* Acima do cabeçalho e do canvas */
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Estado oculto da Sobreposição */
+.welcome-overlay.hidden {
+    opacity: 0;
+    visibility: hidden;
 }
