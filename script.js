@@ -9,7 +9,7 @@ window.addEventListener('scroll', function() {
         }
     });
 
-    // Encolher o cabeçalho ao rolar a página
+    // Encolher e subir o cabeçalho ao rolar a página
     const header = document.querySelector('header');
     if (window.scrollY > 50) {
         header.classList.add('shrink');
