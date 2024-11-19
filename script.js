@@ -8,6 +8,14 @@ window.addEventListener('scroll', function() {
             project.style.animation = 'moveUp 2s ease-in-out 1';
         }
     });
+
+    // Encolher o cabeçalho ao rolar a página
+    const header = document.querySelector('header');
+    if (window.scrollY > 50) {
+        header.classList.add('shrink');
+    } else {
+        header.classList.remove('shrink');
+    }
 });
 
 // Função para animar elementos durante o scroll
