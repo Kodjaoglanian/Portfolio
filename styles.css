@@ -1,0 +1,302 @@
+/* styles.css */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #1c0030 0%, #2b004d 100%);
+    backdrop-filter: blur(10px);
+    overflow-x: hidden;
+    animation: fadeIn 1s ease-in-out;
+    color: #ecf0f1;
+    position: relative;
+}
+
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, transparent, rgba(0, 0, 0, 0.7));
+    pointer-events: none;
+    z-index: 0;
+}
+
+header {
+    background: rgba(28, 0, 48, 0.9);
+    color: #ecf0f1;
+    padding: 20px;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+    transition: background 0.3s ease, transform 0.3s ease;
+    border-radius: 0 0 20px 20px;
+}
+
+header:hover {
+    background: rgba(28, 0, 48, 1);
+    transform: translateY(-5px);
+}
+
+header nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+header nav ul li {
+    display: inline;
+    margin: 0 15px;
+}
+
+header nav ul li a {
+    color: #ecf0f1;
+    text-decoration: none;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+header nav ul li a:hover {
+    color: #8a2be2;
+    transform: scale(1.1);
+}
+
+.language-switcher {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.language-switcher button {
+    background: #8a2be2;
+    color: #ecf0f1;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
+    font-size: 1em;
+}
+
+.language-switcher button:hover {
+    background: #7b68ee;
+    transform: scale(1.1);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    backdrop-filter: blur(5px);
+    animation: fadeIn 1s ease-in-out;
+    position: relative;
+    z-index: 1;
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.profile-pic img {
+    width: 150px;
+    border-radius: 50%;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-pic img:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+.profile-info {
+    max-width: 600px;
+    background: rgba(43, 0, 77, 0.8);
+    border: 1px solid #2b004d;
+    padding: 20px;
+    border-radius: 20px;
+    transition: transform 0.3s, background 0.3s;
+}
+
+.profile-info:hover {
+    transform: scale(1.05);
+    background: rgba(43, 0, 77, 1);
+}
+
+.skills-list, .experience-list, .courses-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.skills-list li, .experience-list li, .courses-list li {
+    background: rgba(43, 0, 77, 0.8);
+    border: 1px solid #2b004d;
+    padding: 10px 20px;
+    margin: 10px;
+    border-radius: 10px;
+    transition: transform 0.3s, background 0.3s;
+}
+
+.skills-list li:hover, .experience-list li:hover, .courses-list li:hover {
+    transform: scale(1.05);
+    background: rgba(43, 0, 77, 1);
+}
+
+.project {
+    background: rgba(43, 0, 77, 0.8);
+    border: 1px solid #2b004d;
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 20px;
+    transition: transform 0.5s, background 0.3s, box-shadow 0.3s;
+    backdrop-filter: blur(5px);
+    animation: move-up 2s ease-in-out infinite;
+}
+
+.project:hover {
+    transform: scale(1.05);
+    background: rgba(43, 0, 77, 1);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.project a {
+    color: #8a2be2;
+    text-decoration: none;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.project a:hover {
+    color: #7b68ee;
+    text-decoration: underline;
+    transform: scale(1.1);
+}
+
+.contact {
+    background: rgba(28, 0, 48, 0.9);
+    padding: 20px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    position: relative;
+    overflow: hidden;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.contact h2 {
+    margin-bottom: 20px;
+    font-size: 2em;
+    color: #8a2be2;
+}
+
+.contact p {
+    margin-bottom: 20px;
+    font-size: 1.2em;
+    color: #ecf0f1;
+}
+
+.contact-icons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.contact-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #8a2be2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease, background 0.3s ease;
+    flex-direction: column;
+    color: #ecf0f1;
+    font-size: 24px;
+}
+
+.contact-icon:hover {
+    transform: scale(1.1);
+    background: #7b68ee;
+}
+
+.contact-icon span {
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.contact-icon.github::before {
+    content: "\f09b";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    font-size: 24px;
+    color: #ecf0f1;
+}
+
+.contact-icon.linkedin::before {
+    content: "\f08c";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    font-size: 24px;
+    color: #ecf0f1;
+}
+
+.contact-icon.email::before {
+    content: "\f0e0";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    font-size: 24px;
+    color: #ecf0f1;
+}
+
+footer {
+    background: rgba(28, 0, 48, 0.9);
+    color: #ecf0f1;
+    text-align: center;
+    padding: 20px;
+    margin-top: 20px;
+    backdrop-filter: blur(10px);
+    transition: background 0.3s ease, transform 0.3s ease;
+    border-radius: 20px 20px 0 0;
+}
+
+footer:hover {
+    background: rgba(28, 0, 48, 1);
+    transform: translateY(-5px);
+}
+
+/* Animations */
+@keyframes move-up {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+body, header, .container, .project, footer {
+    animation: fadeIn 1s ease-in-out;
+}
