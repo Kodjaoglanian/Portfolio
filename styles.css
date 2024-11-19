@@ -300,3 +300,49 @@ footer:hover {
 body, header, .container, .project, footer {
     animation: fadeIn 1s ease-in-out;
 }
+
+/* Animação fadeInUp */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Aplicar animação às seções */
+section.animate {
+    opacity: 0;
+    animation: fadeInUp 1s forwards;
+}
+
+/* Otimização para mobile */
+@media (max-width: 768px) {
+    header nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+    header nav ul li {
+        display: block;
+        margin: 10px 0;
+    }
+    .profile, .skills-list, .project-list, .contact-icons {
+        flex-direction: column;
+        align-items: center;
+    }
+    .language-switcher {
+        flex-direction: column;
+        margin-top: 20px;
+    }
+    .profile-info, .project, .contact {
+        max-width: 100%;
+        margin: 20px 0;
+    }
+    .project {
+        margin: 20px 0;
+    }
+    /* ...estilos adicionais para responsividade... */
+}
