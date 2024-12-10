@@ -1,21 +1,43 @@
 // script.js
-window.addEventListener('scroll', function() {
-    const projects = document.querySelectorAll('.project');
-    projects.forEach(project => {
-        const projectTop = project.getBoundingClientRect().top;
-        const visibleThreshold = 100;
-        if (projectTop < window.innerHeight - visibleThreshold) {
-            project.style.animation = 'moveUp 2s ease-in-out 1';
-        }
-    });
+// Define header globally for smooth scroll
+const header = document.querySelector('header');
 
-    // Encolher e subir o cabeçalho ao rolar a página
-    const header = document.querySelector('header');
-    if (window.scrollY > 50) {
-        header.classList.add('shrink');
-    } else {
-        header.classList.remove('shrink');
+// Optimize scroll event with debounce
+let scrollTimeout;
+window.addEventListener('scroll', function() {
+    if (scrollTimeout) {
+        clearTimeout(scrollTimeout);
     }
+    scrollTimeout = setTimeout(() => {
+        const projects = document.querySelectorAll('.project');
+        projects.forEach(project => {
+            const projectTop = project.getBoundingClientRect().top;
+            const visibleThreshold = 100;
+            if (projectTop < window.innerHeight - visibleThreshold) {
+                project.style.animation = 'fadeIn 1s ease-in-out forwards';
+            }
+        });
+
+        // Encolher e subir o cabeçalho ao rolar a página
+        if (window.scrollY > 50) {
+            header.classList.add('shrink');
+        } else {
+            header.classList.remove('shrink');
+        }
+    }, 100);
+});
+
+// Smooth scroll for navigation links
+document.querySelectorAll('header nav ul li a').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href').substring(1);
+        const targetSection = document.getElementById(targetId);
+        window.scrollTo({
+            top: targetSection.offsetTop - header.offsetHeight,
+            behavior: 'smooth'
+        });
+    });
 });
 
 // Função para animar elementos durante o scroll
