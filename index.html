@@ -3,181 +3,972 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfólio de Kodjaoglanian</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <!-- Adicionar Biblioteca Three.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
-    <!-- Adicionar Biblioteca GSAP -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.1/gsap.min.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.1/ScrollTrigger.min.js" defer></script>
-    <!-- Adicionar Script Personalizado -->
-    <script src="script.js" defer></script>
+    <title>Bruno Tulux | Portfólio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #2563eb;
+            --secondary: #10b981;
+            --dark: #1e293b;
+            --light: #f8fafc;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f1f5f9;
+            color: var(--dark);
+            scroll-behavior: smooth;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .skill-badge {
+            transition: all 0.2s ease;
+        }
+        
+        .skill-badge:hover {
+            transform: scale(1.05);
+        }
+        
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .project-card {
+            perspective: 1000px;
+        }
+        
+        .project-inner {
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        
+        .project-card:hover .project-inner {
+            transform: rotateY(180deg);
+        }
+        
+        .project-front, .project-back {
+            backface-visibility: hidden;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .project-back {
+            transform: rotateY(180deg);
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            left: -40px;
+            top: 0;
+            background: var(--primary);
+            border: 3px solid white;
+        }
+        
+        .typewriter {
+            overflow: hidden;
+            border-right: 3px solid var(--primary);
+            white-space: nowrap;
+            margin: 0 auto;
+            letter-spacing: 2px;
+            animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+        
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--primary) }
+        }
+        
+        .fade-in {
+            animation: fadeIn 1s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
-<body>
-    <!-- Canvas 3D para o Cabeçalho Interativo -->
-    <canvas id="3d-header"></canvas>
-
-    <!-- Sobreposição de Boas-Vindas -->
-    <div id="welcome-overlay" class="welcome-overlay">
-        <h1>Bem-vindo ao Meu Portfólio</h1>
-    </div>
-
-    <header>
-        <h1>Kodjaoglanian</h1>
-        <nav aria-label="Main Navigation">
-            <ul>
-                <li><a href="#perfil" data-lang="pt">Perfil</a><a href="#profile" data-lang="en" style="display:none;">Profile</a></li>
-                <li><a href="#habilidades" data-lang="pt">Habilidades</a><a href="#skills" data-lang="en" style="display:none;">Skills</a></li>
-                <li><a href="#projects" data-lang="pt">Projetos</a><a href="#projects" data-lang="en" style="display:none;">Projects</a></li>
-                <li><a href="#contact" data-lang="pt">Contato</a><a href="#contact" data-lang="en" style="display:none;">Contact</a></li>
-            </ul>
-        </nav>
-        <div class="language-switcher">
-            <button onclick="switchLanguage('pt')">PT</button>
-            <button onclick="switchLanguage('en')">EN</button>
+<body class="min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm fixed w-full z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="#" class="text-xl font-bold gradient-text">Bruno Tulux</a>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#about" class="nav-link text-gray-700 hover:text-blue-500 px-3 py-2">Sobre</a>
+                    <a href="#skills" class="nav-link text-gray-700 hover:text-blue-500 px-3 py-2">Habilidades</a>
+                    <a href="#projects" class="nav-link text-gray-700 hover:text-blue-500 px-3 py-2">Projetos</a>
+                    <a href="#contact" class="nav-link text-gray-700 hover:text-blue-500 px-3 py-2">Contato</a>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <button id="menu-toggle" class="text-gray-500 hover:text-blue-500 focus:outline-none">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
         </div>
-    </header>
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white pb-3 px-2">
+            <a href="#about" class="block px-3 py-2 text-gray-700 hover:text-blue-500">Sobre</a>
+            <a href="#skills" class="block px-3 py-2 text-gray-700 hover:text-blue-500">Habilidades</a>
+            <a href="#projects" class="block px-3 py-2 text-gray-700 hover:text-blue-500">Projetos</a>
+            <a href="#contact" class="block px-3 py-2 text-gray-700 hover:text-blue-500">Contato</a>
+        </div>
+    </nav>
 
-    <main>
-        <section id="perfil" class="animate">
-            <div class="container profile">
-                <div class="profile-pic">
-                    <img src="profile-pic.jpeg" alt="Kodjaoglanian">
+    <!-- Hero Section -->
+    <section class="pt-24 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div class="flex flex-col md:flex-row items-center justify-between">
+            <div class="md:w-1/2 mb-10 md:mb-0 fade-in">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4">Olá, eu sou <span class="gradient-text">Bruno Tulux</span></h1>
+                <div class="typewriter text-xl md:text-2xl text-gray-600 mb-6">
+                    Desenvolvedor & Analista de Sistemas
                 </div>
-                <div class="profile-info">
-                    <h2 data-lang="pt">Perfil</h2><h2 data-lang="en" style="display:none;">Profile</h2>
-                    <h3>Bruno Kodjaoglanian Cardoso Tulux</h3>
-                    <p data-lang="pt">Cursando Tecnologia em Análise e Desenvolvimento de Sistemas, altamente motivado, com ampla experiência em reparos de hardware e software. Possuo excelentes habilidades de solução e resolução de problemas, capacidade de trabalhar de forma independente ou como parte de uma equipe. Atuei na área de tecnologia, administrativo e atendimento. Como objetivo, almejo expandir competências e habilidades, agregando em minha experiência profissional e contribuindo com o crescimento da empresa.</p>
-                    <p data-lang="en" style="display:none;">Studying Technology in Systems Analysis and Development, highly motivated, with extensive experience in hardware and software repairs. I have excellent problem-solving skills, the ability to work independently or as part of a team. I have worked in technology, administrative, and customer service areas. My goal is to expand my skills and abilities, adding to my professional experience and contributing to the company's growth.</p>
+                <p class="text-gray-600 mb-8">
+                    Transformando desafios em soluções práticas e eficientes com paixão por automação, interfaces gráficas e análise de dados.
+                </p>
+                <div class="flex space-x-4">
+                    <a href="#projects" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-medium transition duration-300 shadow-md">
+                        Ver Projetos
+                    </a>
+                    <a href="#contact" class="border border-blue-500 text-blue-500 hover:bg-blue-50 px-6 py-3 rounded-lg font-medium transition duration-300">
+                        Contato
+                    </a>
                 </div>
             </div>
-        </section>
-
-        <section id="habilidades" class="animate">
-            <div class="container">
-                <h2 data-lang="pt">Habilidades</h2><h2 data-lang="en" style="display:none;">Skills</h2>
-                <ul class="skills-list">
-                    <li data-lang="pt">Trabalho em rede</li><li data-lang="en" style="display:none;">Networking</li>
-                    <li data-lang="pt">Resolução de problemas</li><li data-lang="en" style="display:none;">Problem Solving</li>
-                    <li data-lang="pt">Hardware</li><li data-lang="en" style="display:none;">Hardware</li>
-                    <li data-lang="pt">Software</li><li data-lang="en" style="display:none;">Software</li>
-                    <li data-lang="pt">Apoio e suporte técnico</li><li data-lang="en" style="display:none;">Technical Support</li>
-                    <li data-lang="pt">Diagnósticos</li><li data-lang="en" style="display:none;">Diagnostics</li>
-                    <li data-lang="pt">Testes Operacionais</li><li data-lang="en" style="display:none;">Operational Testing</li>
-                    <li data-lang="pt">Desenvolvimento e Acompanhamento de Projetos</li><li data-lang="en" style="display:none;">Project Development and Monitoring</li>
-                    <li data-lang="pt">Pacote Office, digitação e Outlook</li><li data-lang="en" style="display:none;">Office Suite, Typing, and Outlook</li>
-                    <li data-lang="pt">Administração de sistemas e redes</li><li data-lang="en" style="display:none;">Systems and Network Administration</li>
-                    <li data-lang="pt">Suporte técnico</li><li data-lang="en" style="display:none;">Technical Support</li>
-                    <li data-lang="pt">Atendimento ao cliente</li><li data-lang="en" style="display:none;">Customer Service</li>
-                    <li data-lang="pt">Sistemas Operacionais (Linux - Windows)</li><li data-lang="en" style="display:none;">Operating Systems (Linux - Windows)</li>
-                    <li data-lang="pt">Python</li><li data-lang="en" style="display:none;">Python</li>
-                    <li data-lang="pt">JavaScript</li><li data-lang="en" style="display:none;">JavaScript</li>
-                    <li data-lang="pt">Linguagem R</li><li data-lang="en" style="display:none;">R Language</li>
-                    <li data-lang="pt">API</li><li data-lang="en" style="display:none;">API</li>
-                    <li data-lang="pt">GitHub</li><li data-lang="en" style="display:none;">GitHub</li>
-                </ul>
+            <div class="md:w-1/2 flex justify-center animate-float">
+                <img src="profile-pic.jpeg" alt="Developer Illustration" class="rounded-full w-64 h-64 md:w-80 md:h-80 object-cover shadow-xl border-4 border-white">
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section id="projects" class="animate">
-            <div class="container">
-                <h2 data-lang="pt">Projetos</h2><h2 data-lang="en" style="display:none;">Projects</h2>
-                <div class="project-list">
-                    <div class="project">
-                        <h3>ZPayX - Solução Blockchain para Economias Internas com Automação via WhatsApp</h3>
-                        <p data-lang="pt">Plataforma para gerenciar economias internas utilizando tecnologia blockchain, integrando automação via WhatsApp para facilitar a comunicação e o controle das operações.</p>
-                        <p data-lang="en" style="display:none;">Platform to manage internal economies using blockchain technology, integrating automation via WhatsApp to facilitate communication and control of operations.</p>
-                        <a href="https://github.com/Kodjaoglanian/zpayx" target="_blank">Ver no GitHub</a>
+    <!-- About Section -->
+    <section id="about" class="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto bg-white rounded-xl shadow-sm mt-10">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold gradient-text inline-block">Sobre Mim</h2>
+            <div class="w-16 h-1 bg-gradient-to-r from-blue-500 to-green-400 mx-auto mt-2"></div>
+        </div>
+        
+        <div class="flex flex-col md:flex-row gap-8">
+            <div class="md:w-1/2">
+                <h3 class="text-2xl font-semibold mb-4">Perfil Profissional</h3>
+                <p class="text-gray-600 mb-6">
+                    Cursando Tecnologia em Análise e Desenvolvimento de Sistemas, altamente motivado, com ampla experiência em reparos de hardware e software. Possuo excelentes habilidades de solução e resolução de problemas, capacidade de trabalhar de forma independente ou como parte de uma equipe.
+                </p>
+                <p class="text-gray-600 mb-6">
+                    Atuei na área de tecnologia, administrativo e atendimento. Como objetivo, almejo expandir competências e habilidades, agregando em minha experiência profissional e contribuindo com o crescimento da empresa.
+                </p>
+                <div class="bg-gray-50 p-6 rounded-lg">
+                    <h4 class="text-xl font-semibold mb-4">🛠️ Tech Stack</h4>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">Python</span>
+                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">PyQt6</span>
+                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">Streamlit</span>
+                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">GitHub API</span>
+                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">Pandas</span>
+                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">SQLite</span>
                     </div>
-                    <div class="project">
-                        <h3>Sistema de Gerenciamento de Projetos de Iniciação Científica</h3>
-                        <p data-lang="pt">Sistema desktop em Python com PyQt6 para facilitar o gerenciamento de projetos de iniciação científica, permitindo cadastro, visualização, edição e exclusão de projetos e bolsistas.</p>
-                        <p data-lang="en" style="display:none;">Desktop system in Python with PyQt6 to facilitate the management of scientific initiation projects, allowing registration, viewing, editing, and deletion of projects and scholars.</p>
-                        <a href="https://github.com/Kodjaoglanian/ProjectManage" target="_blank">Ver no GitHub</a>
-                    </div>
-                    <div class="project">
-                        <h3>CylinderDistribution - Explorando a Relação entre Cilindros e Eficiência de Combustível</h3>
-                        <p data-lang="pt">Análise visual em R que investiga como o número de cilindros nos motores de veículos influencia a eficiência de combustível, combinando estatísticas e visualizações para revelar padrões na indústria automotiva.</p>
-                        <p data-lang="en" style="display:none;">Visual analysis in R that investigates how the number of cylinders in vehicle engines influences fuel efficiency, combining statistics and visualizations to reveal patterns in the automotive industry.</p>
-                        <a href="https://github.com/Kodjaoglanian/cylinderdistribution" target="_blank">Ver no GitHub</a>
-                    </div>
-                    <div class="project">
-                        <h3>Dashboard NUPAM 2024</h3>
-                        <p data-lang="pt">O Dashboard NUPAM 2024 é uma plataforma robusta para monitoramento, análise e prestação de contas relacionadas à gestão de processos ambientais.</p>
-                        <p data-lang="en" style="display:none;">The NUPAM 2024 Dashboard is a robust platform for monitoring, analysis, and accountability related to environmental process management.</p>
-                        <a href="#" onclick="document.getElementById('nupam-details').style.display='block'; this.style.display='none';">Ler mais</a>
-                        <div id="nupam-details" style="display:none;">
-                            <p data-lang="pt"><strong>Descrição Geral:</strong> Desenvolvido para atender demandas institucionais e do Ministério Público, o sistema organiza dados complexos de forma visual e acessível, promovendo transparência, eficiência e suporte à tomada de decisão.</p>
-                            <p data-lang="en" style="display:none;"><strong>General Description:</strong> Developed to meet institutional and Public Ministry demands, the system organizes complex data in a visual and accessible way, promoting transparency, efficiency, and decision-making support.</p>
-                            <p data-lang="pt"><strong>Funcionalidades:</strong></p>
-                            <p data-lang="en" style="display:none;"><strong>Features:</strong></p>
-                            <ul>
-                                <li data-lang="pt"><strong>Painel de Resumo Geral:</strong> Monitoramento de Processos, Indicadores de Produtividade.</li>
-                                <li data-lang="en" style="display:none;"><strong>General Summary Panel:</strong> Process Monitoring, Productivity Indicators.</li>
-                                <li data-lang="pt"><strong>Indicadores de Qualidade de Dados:</strong> Auditoria e Validação, Transparência de Dados.</li>
-                                <li data-lang="en" style="display:none;"><strong>Data Quality Indicators:</strong> Audit and Validation, Data Transparency.</li>
-                                <li data-lang="pt"><strong>Visualização Estatística e Gráfica:</strong> Distribuição Temporal e Geográfica, Estatísticas Avançadas.</li>
-                                <li data-lang="en" style="display:none;"><strong>Statistical and Graphical Visualization:</strong> Temporal and Geographical Distribution, Advanced Statistics.</li>
-                                <li data-lang="pt"><strong>Inteligência Artificial e Aprendizado de Máquina:</strong> Análise de Tendências, Clustering de Dados, Previsão de Séries Temporais.</li>
-                                <li data-lang="en" style="display:none;"><strong>Artificial Intelligence and Machine Learning:</strong> Trend Analysis, Data Clustering, Time Series Forecasting.</li>
-                                <li data-lang="pt"><strong>Integração de Dados e Normalização:</strong> Fuzzy Matching, Automatização de Processos.</li>
-                                <li data-lang="en" style="display:none;"><strong>Data Integration and Normalization:</strong> Fuzzy Matching, Process Automation.</li>
-                            </ul>
-                            <p data-lang="pt"><strong>Diferenciais do Projeto:</strong> Interface intuitiva, Análises preditivas, Foco na qualidade, Personalização.</p>
-                            <p data-lang="en" style="display:none;"><strong>Project Differentials:</strong> Intuitive Interface, Predictive Analysis, Quality Focus, Customization.</p>
+                </div>
+            </div>
+            
+            <div class="md:w-1/2">
+                <h3 class="text-2xl font-semibold mb-4">Educação</h3>
+                <div class="relative pl-8">
+                    <div class="absolute left-0 top-0 h-full w-0.5 bg-gray-200"></div>
+                    
+                    <div class="relative mb-8 timeline-item">
+                        <div class="bg-gray-50 p-6 rounded-lg">
+                            <h4 class="font-semibold text-lg">Tecnologia em Análise e Desenvolvimento de Sistemas</h4>
+                            <p class="text-gray-500">Cursando</p>
+                            <p class="text-gray-600 mt-2">Formação focada em desenvolvimento de software, análise de sistemas e gestão de projetos tecnológicos.</p>
                         </div>
                     </div>
-                    <div class="project">
-                        <h3>ByteBite - Ferramenta de Dieta e Refeições</h3>
-                        <p data-lang="pt">Uma ferramenta intuitiva para gerenciar dietas e planos de refeições, ajudando os usuários a manter uma alimentação balanceada e acompanhar seus objetivos nutricionais.</p>
-                        <p data-lang="en" style="display:none;">An intuitive tool for managing diets and meal plans, helping users maintain a balanced diet and track their nutritional goals.</p>
-                        <a href="https://byte-bite.vercel.app/" target="_blank">Ver ByteBite</a>
+                </div>
+                
+                <h3 class="text-2xl font-semibold mb-4">⚡ Habilidades Secundárias</h3>
+                <div class="flex flex-wrap gap-2">
+                    <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">JavaScript</span>
+                    <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">HTML5</span>
+                    <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">CSS3</span>
+                    <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">Git</span>
+                </div>
+                
+                <h3 class="text-2xl font-semibold mt-6 mb-4">🌍 Web Services & Ferramentas</h3>
+                <div class="flex flex-wrap gap-2">
+                    <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">GitHub</span>
+                    <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">Postman</span>
+                    <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">GitHub Projects</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto mt-10">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold gradient-text inline-block">Minhas Habilidades</h2>
+            <div class="w-16 h-1 bg-gradient-to-r from-blue-500 to-green-400 mx-auto mt-2"></div>
+        </div>
+        
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition duration-300 skill-badge">
+                <div class="text-blue-500 text-3xl mb-3">
+                    <i class="fas fa-network-wired"></i>
+                </div>
+                <h3 class="font-semibold text-lg mb-2">Trabalho em rede</h3>
+                <p class="text-gray-600 text-sm">Experiência em configuração e manutenção de redes de computadores.</p>
+            </div>
+            
+            <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition duration-300 skill-badge">
+                <div class="text-blue-500 text-3xl mb-3">
+                    <i class="fas fa-bug"></i>
+                </div>
+                <h3 class="font-semibold text-lg mb-2">Resolução de problemas</h3>
+                <p class="text-gray-600 text-sm">Habilidade em diagnosticar e solucionar problemas técnicos complexos.</p>
+            </div>
+            
+            <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition duration-300 skill-badge">
+                <div class="text-blue-500 text-3xl mb-3">
+                    <i class="fas fa-microchip"></i>
+                </div>
+                <h3 class="font-semibold text-lg mb-2">Hardware</h3>
+                <p class="text-gray-600 text-sm">Conhecimento em montagem, manutenção e reparo de hardware.</p>
+            </div>
+            
+            <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition duration-300 skill-badge">
+                <div class="text-blue-500 text-3xl mb-3">
+                    <i class="fas fa-code"></i>
+                </div>
+                <h3 class="font-semibold text-lg mb-2">Software</h3>
+                <p class="text-gray-600 text-sm">Desenvolvimento e manutenção de aplicações e sistemas.</p>
+            </div>
+            
+            <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition duration-300 skill-badge">
+                <div class="text-blue-500 text-3xl mb-3">
+                    <i class="fas fa-headset"></i>
+                </div>
+                <h3 class="font-semibold text-lg mb-2">Apoio e suporte técnico</h3>
+                <p class="text-gray-600 text-sm">Atendimento e suporte a usuários com problemas técnicos.</p>
+            </div>
+            
+            <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition duration-300 skill-badge">
+                <div class="text-blue-500 text-3xl mb-3">
+                    <i class="fas fa-search"></i>
+                </div>
+                <h3 class="font-semibold text-lg mb-2">Diagnósticos</h3>
+                <p class="text-gray-600 text-sm">Capacidade de identificar falhas e propor soluções eficientes.</p>
+            </div>
+            
+            <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition duration-300 skill-badge">
+                <div class="text-blue-500 text-3xl mb-3">
+                    <i class="fas fa-vial"></i>
+                </div>
+                <h3 class="font-semibold text-lg mb-2">Testes Operacionais</h3>
+                <p class="text-gray-600 text-sm">Realização de testes para garantir qualidade e funcionalidade.</p>
+            </div>
+            
+            <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition duration-300 skill-badge">
+                <div class="text-blue-500 text-3xl mb-3">
+                    <i class="fas fa-project-diagram"></i>
+                </div>
+                <h3 class="font-semibold text-lg mb-2">Desenvolvimento de Projetos</h3>
+                <p class="text-gray-600 text-sm">Gestão e acompanhamento de projetos tecnológicos.</p>
+            </div>
+            
+            <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition duration-300 skill-badge">
+                <div class="text-blue-500 text-3xl mb-3">
+                    <i class="fas fa-file-word"></i>
+                </div>
+                <h3 class="font-semibold text-lg mb-2">Pacote Office</h3>
+                <p class="text-gray-600 text-sm">Domínio de Word, Excel, PowerPoint e Outlook.</p>
+            </div>
+            
+            <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition duration-300 skill-badge">
+                <div class="text-blue-500 text-3xl mb-3">
+                    <i class="fas fa-server"></i>
+                </div>
+                <h3 class="font-semibold text-lg mb-2">Administração de sistemas</h3>
+                <p class="text-gray-600 text-sm">Configuração e manutenção de sistemas operacionais.</p>
+            </div>
+            
+            <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition duration-300 skill-badge">
+                <div class="text-blue-500 text-3xl mb-3">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <h3 class="font-semibold text-lg mb-2">Suporte técnico</h3>
+                <p class="text-gray-600 text-sm">Assistência técnica presencial e remota.</p>
+            </div>
+            
+            <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition duration-300 skill-badge">
+                <div class="text-blue-500 text-3xl mb-3">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3 class="font-semibold text-lg mb-2">Atendimento ao cliente</h3>
+                <p class="text-gray-600 text-sm">Comunicação clara e eficiente com clientes.</p>
+            </div>
+            
+            <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition duration-300 skill-badge">
+                <div class="text-blue-500 text-3xl mb-3">
+                    <i class="fab fa-windows"></i>
+                </div>
+                <h3 class="font-semibold text-lg mb-2">Sistemas Operacionais</h3>
+                <p class="text-gray-600 text-sm">Linux e Windows.</p>
+            </div>
+            
+            <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition duration-300 skill-badge">
+                <div class="text-blue-500 text-3xl mb-3">
+                    <i class="fab fa-python"></i>
+                </div>
+                <h3 class="font-semibold text-lg mb-2">Python</h3>
+                <p class="text-gray-600 text-sm">Desenvolvimento de aplicações e automações.</p>
+            </div>
+            
+            <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition duration-300 skill-badge">
+                <div class="text-blue-500 text-3xl mb-3">
+                    <i class="fab fa-js"></i>
+                </div>
+                <h3 class="font-semibold text-lg mb-2">JavaScript</h3>
+                <p class="text-gray-600 text-sm">Desenvolvimento web front-end.</p>
+            </div>
+            
+            <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition duration-300 skill-badge">
+                <div class="text-blue-500 text-3xl mb-3">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3 class="font-semibold text-lg mb-2">Linguagem R</h3>
+                <p class="text-gray-600 text-sm">Análise estatística e visualização de dados.</p>
+            </div>
+            
+            <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition duration-300 skill-badge">
+                <div class="text-blue-500 text-3xl mb-3">
+                    <i class="fas fa-plug"></i>
+                </div>
+                <h3 class="font-semibold text-lg mb-2">API</h3>
+                <p class="text-gray-600 text-sm">Integração e desenvolvimento de APIs.</p>
+            </div>
+            
+            <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition duration-300 skill-badge">
+                <div class="text-blue-500 text-3xl mb-3">
+                    <i class="fab fa-github"></i>
+                </div>
+                <h3 class="font-semibold text-lg mb-2">GitHub</h3>
+                <p class="text-gray-600 text-sm">Versionamento e colaboração em projetos.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto bg-white rounded-xl shadow-sm mt-10">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold gradient-text inline-block">Meus Projetos</h2>
+            <div class="w-16 h-1 bg-gradient-to-r from-blue-500 to-green-400 mx-auto mt-2"></div>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Project 1 -->
+            <div class="project-card h-80 relative">
+                <div class="project-inner h-full w-full rounded-xl shadow-md overflow-hidden">
+                    <div class="project-front h-full bg-gradient-to-br from-blue-50 to-blue-100 p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800">ZPayX</h3>
+                                <p class="text-sm text-blue-600">Blockchain & WhatsApp</p>
+                            </div>
+                            <div class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs">
+                                <i class="fab fa-python mr-1"></i> Python
+                            </div>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4">
+                            Solução Blockchain para Economias Internas com Automação via WhatsApp.
+                        </p>
+                        <div class="absolute bottom-6 left-6 right-6">
+                            <div class="flex justify-between items-center">
+                                <span class="text-xs text-gray-500"></span>
+                                <span class="text-blue-500 text-sm font-medium animate-pulse">
+                                    <i class="fas fa-arrow-right"></i>
+                                </span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="project">
-                        <h3>OrcaFlex - Ferramenta para Gerar Orçamentos Completo e Gratuito</h3>
-                        <p data-lang="pt">Uma ferramenta robusta para criar orçamentos detalhados de forma completa e gratuita, facilitando o planejamento financeiro para indivíduos e empresas.</p>
-                        <p data-lang="en" style="display:none;">A robust tool for creating detailed budgets in a complete and free manner, facilitating financial planning for individuals and businesses.</p>
-                        <a href="https://orca-flex.vercel.app/" target="_blank">Ver OrçaFlex</a>
-                    </div>
-                    <div class="project">
-                        <h3>MeusLinks - Coletor Personalizado de Links</h3>
-                        <p data-lang="pt">Aplicativo web para coletar, organizar e compartilhar links de interesse, permitindo aos usuários manter um repositório personalizado de recursos online.</p>
-                        <p data-lang="en" style="display:none;">Web application to collect, organize, and share interesting links, allowing users to maintain a personalized repository of online resources.</p>
-                        <a href="https://kodjaoglanian.github.io/MeusLinks/" target="_blank">Ver MeusLinks</a>
+                    <div class="project-back h-full bg-gradient-to-br from-blue-100 to-blue-200 p-6 overflow-auto">
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">ZPayX</h3>
+                        <p class="text-gray-600 text-sm mb-4">
+                            Plataforma para gerenciar economias internas utilizando tecnologia blockchain, integrando automação via WhatsApp para facilitar a comunicação e o controle das operações.
+                        </p>
+                        <a href="#" class="inline-block bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition duration-300">
+                            <i class="fab fa-github mr-1"></i> Ver no GitHub
+                        </a>
                     </div>
                 </div>
             </div>
-        </section>
+            
+            <!-- Project 2 -->
+            <div class="project-card h-80 relative">
+                <div class="project-inner h-full w-full rounded-xl shadow-md overflow-hidden">
+                    <div class="project-front h-full bg-gradient-to-br from-green-50 to-green-100 p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800">Sistema de Gerenciamento</h3>
+                                <p class="text-sm text-green-600">Iniciação Científica</p>
+                            </div>
+                            <div class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">
+                                <i class="fab fa-python mr-1"></i> Python
+                            </div>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4">
+                            Sistema desktop para gerenciamento de projetos de iniciação científica.
+                        </p>
+                        <div class="absolute bottom-6 left-6 right-6">
+                            <div class="flex justify-between items-center">
+                                <span class="text-xs text-gray-500"></span>
+                                <span class="text-green-500 text-sm font-medium animate-pulse">
+                                    <i class="fas fa-arrow-right"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-back h-full bg-gradient-to-br from-green-100 to-green-200 p-6 overflow-auto">
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Sistema de Gerenciamento</h3>
+                        <p class="text-gray-600 text-sm mb-4">
+                            Sistema desktop em Python com PyQt6 para facilitar o gerenciamento de projetos de iniciação científica, permitindo cadastro, visualização, edição e exclusão de projetos e bolsistas.
+                        </p>
+                        <a href="#" class="inline-block bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition duration-300">
+                            <i class="fab fa-github mr-1"></i> Ver no GitHub
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Project 3 -->
+            <div class="project-card h-80 relative">
+                <div class="project-inner h-full w-full rounded-xl shadow-md overflow-hidden">
+                    <div class="project-front h-full bg-gradient-to-br from-purple-50 to-purple-100 p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800">CylinderDistribution</h3>
+                                <p class="text-sm text-purple-600">Análise de Dados</p>
+                            </div>
+                            <div class="bg-purple-100 text-purple-800 px-2 py-1 rounded-full text-xs">
+                                <i class="fas fa-chart-line mr-1"></i> R
+                            </div>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4">
+                            Análise da relação entre cilindros e eficiência de combustível.
+                        </p>
+                        <div class="absolute bottom-6 left-6 right-6">
+                            <div class="flex justify-between items-center">
+                                <span class="text-xs text-gray-500"></span>
+                                <span class="text-purple-500 text-sm font-medium animate-pulse">
+                                    <i class="fas fa-arrow-right"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-back h-full bg-gradient-to-br from-purple-100 to-purple-200 p-6 overflow-auto">
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">CylinderDistribution</h3>
+                        <p class="text-gray-600 text-sm mb-4">
+                            Análise visual em R que investiga como o número de cilindros nos motores de veículos influencia a eficiência de combustível, combinando estatísticas e visualizações para revelar padrões na indústria automotiva.
+                        </p>
+                        <a href="#" class="inline-block bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition duration-300">
+                            <i class="fab fa-github mr-1"></i> Ver no GitHub
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Project 4 -->
+            <div class="project-card h-80 relative">
+                <div class="project-inner h-full w-full rounded-xl shadow-md overflow-hidden">
+                    <div class="project-front h-full bg-gradient-to-br from-yellow-50 to-yellow-100 p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800">Dashboard NUPAM 2024</h3>
+                                <p class="text-sm text-yellow-600">Gestão Ambiental</p>
+                            </div>
+                            <div class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs">
+                                <i class="fas fa-chart-pie mr-1"></i> Streamlit
+                            </div>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4">
+                            Plataforma para monitoramento de processos ambientais.
+                        </p>
+                        <div class="absolute bottom-6 left-6 right-6">
+                            <div class="flex justify-between items-center">
+                                <span class="text-xs text-gray-500"></span>
+                                <span class="text-yellow-500 text-sm font-medium animate-pulse">
+                                    <i class="fas fa-arrow-right"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-back h-full bg-gradient-to-br from-yellow-100 to-yellow-200 p-6 overflow-auto">
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Dashboard NUPAM 2024</h3>
+                        <p class="text-gray-600 text-sm mb-4">
+                            O Dashboard NUPAM 2024 é uma plataforma robusta para monitoramento, análise e prestação de contas relacionadas à gestão de processos ambientais. Desenvolvido para atender demandas institucionais e do Ministério Público, o sistema organiza dados complexos de forma visual e acessível, promovendo transparência, eficiência e suporte à tomada de decisão.
+                        </p>
+                        <p class="text-gray-600 text-sm mb-4">
+                            Funcionalidades: Painel de Resumo Geral, Indicadores de Qualidade de Dados, Visualização Estatística e Gráfica, Inteligência Artificial e Aprendizado de Máquina, Integração de Dados e Normalização.
+                        </p>
+                        <a href="#" class="inline-block bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition duration-300">
+                            <i class="fas fa-external-link-alt mr-1"></i> Acessar Dashboard
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Project 5 -->
+            <div class="project-card h-80 relative">
+                <div class="project-inner h-full w-full rounded-xl shadow-md overflow-hidden">
+                    <div class="project-front h-full bg-gradient-to-br from-red-50 to-red-100 p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800">ByteBite</h3>
+                                <p class="text-sm text-red-600">Nutrição</p>
+                            </div>
+                            <div class="bg-red-100 text-red-800 px-2 py-1 rounded-full text-xs">
+                                <i class="fas fa-utensils mr-1"></i> Web
+                            </div>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4">
+                            Ferramenta de dieta e planejamento de refeições.
+                        </p>
+                        <div class="absolute bottom-6 left-6 right-6">
+                            <div class="flex justify-between items-center">
+                                <span class="text-xs text-gray-500"></span>
+                                <span class="text-red-500 text-sm font-medium animate-pulse">
+                                    <i class="fas fa-arrow-right"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-back h-full bg-gradient-to-br from-red-100 to-red-200 p-6 overflow-auto">
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">ByteBite</h3>
+                        <p class="text-gray-600 text-sm mb-4">
+                            Ferramenta intuitiva para gerenciar dietas e planos de refeições, ajudando os usuários a manter uma alimentação balanceada e acompanhar seus objetivos nutricionais.
+                        </p>
+                        <a href="#" class="inline-block bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition duration-300">
+                            <i class="fas fa-external-link-alt mr-1"></i> Acessar ByteBite
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Project 6 -->
+            <div class="project-card h-80 relative">
+                <div class="project-inner h-full w-full rounded-xl shadow-md overflow-hidden">
+                    <div class="project-front h-full bg-gradient-to-br from-indigo-50 to-indigo-100 p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800">OrcaFlex</h3>
+                                <p class="text-sm text-indigo-600">Finanças</p>
+                            </div>
+                            <div class="bg-indigo-100 text-indigo-800 px-2 py-1 rounded-full text-xs">
+                                <i class="fas fa-calculator mr-1"></i> Web
+                            </div>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4">
+                            Ferramenta para gerar orçamentos completos.
+                        </p>
+                        <div class="absolute bottom-6 left-6 right-6">
+                            <div class="flex justify-between items-center">
+                                <span class="text-xs text-gray-500"></span>
+                                <span class="text-indigo-500 text-sm font-medium animate-pulse">
+                                    <i class="fas fa-arrow-right"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-back h-full bg-gradient-to-br from-indigo-100 to-indigo-200 p-6 overflow-auto">
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">OrcaFlex</h3>
+                        <p class="text-gray-600 text-sm mb-4">
+                            Ferramenta robusta para criar orçamentos detalhados de forma completa e gratuita, facilitando o planejamento financeiro para indivíduos e empresas.
+                        </p>
+                        <a href="#" class="inline-block bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition duration-300">
+                            <i class="fas fa-external-link-alt mr-1"></i> Acessar OrçaFlex
+                        </a>
+                    </div>
+                </div>
+            </div>
 
-        <section id="contact" class="animate">
-            <div class="container contact">
-                <h2 data-lang="pt">Contato</h2><h2 data-lang="en" style="display:none;">Contact</h2>
-                <p data-lang="pt">Você pode entrar em contato comigo através das seguintes redes sociais:</p>
-                <p data-lang="en" style="display:none;">You can contact me through the following social networks:</p>
-                <div class="contact-icons">
-                    <a href="https://github.com/Kodjaoglanian" target="_blank" class="contact-icon">
-                        <div>🐱</div>
-                        <span>GitHub</span>
+            <!-- Project 7 (NOVO) -->
+            <div class="project-card h-80 relative">
+                <div class="project-inner h-full w-full rounded-xl shadow-md overflow-hidden">
+                    <div class="project-front h-full bg-gradient-to-br from-teal-50 to-teal-100 p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800">StartupHub SINOVA</h3>
+                                <p class="text-sm text-teal-600">Gestão de Incubadoras</p>
+                            </div>
+                            <div class="bg-teal-100 text-teal-800 px-2 py-1 rounded-full text-xs">
+                                <i class="fab fa-python mr-1"></i> PyQt6
+                            </div>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4">
+                            Software para gestão de startups incubadas em parceria com a UCDB.
+                        </p>
+                        <div class="absolute bottom-6 left-6 right-6">
+                            <div class="flex justify-between items-center">
+                                <span class="text-xs text-gray-500"></span>
+                                <span class="text-teal-500 text-sm font-medium animate-pulse">
+                                    <i class="fas fa-arrow-right"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-back h-full bg-gradient-to-br from-teal-100 to-teal-200 p-6 overflow-auto">
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">StartupHub SINOVA</h3>
+                        <p class="text-gray-600 text-sm mb-4">
+                            Software de gestão de startups incubadas para incubadoras feito em parceria com o setor SINOVA de inovação da UCDB (Universidade Católica Dom Bosco). Sistema completo para monitoramento, avaliação e desenvolvimento de empresas em fase de incubação.
+                        </p>
+                        <a href="#" class="inline-block bg-teal-500 hover:bg-teal-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition duration-300">
+                            <i class="fas fa-external-link-alt mr-1"></i> Ver Demo
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 8 (NOVO) -->
+            <div class="project-card h-80 relative">
+                <div class="project-inner h-full w-full rounded-xl shadow-md overflow-hidden">
+                    <div class="project-front h-full bg-gradient-to-br from-amber-50 to-amber-100 p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800">Notus</h3>
+                                <p class="text-sm text-amber-600">Organização & IA</p>
+                            </div>
+                            <div class="bg-amber-100 text-amber-800 px-2 py-1 rounded-full text-xs">
+                                <i class="fab fa-python mr-1"></i> PyQt + AI
+                            </div>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4">
+                            Sistema de anotações com IA integrada rodando localmente.
+                        </p>
+                        <div class="absolute bottom-6 left-6 right-6">
+                            <div class="flex justify-between items-center">
+                                <span class="text-xs text-gray-500"></span>
+                                <span class="text-amber-500 text-sm font-medium animate-pulse">
+                                    <i class="fas fa-arrow-right"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-back h-full bg-gradient-to-br from-amber-100 to-amber-200 p-6 overflow-auto">
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Notus</h3>
+                        <p class="text-gray-600 text-sm mb-4">
+                            Software de anotações e de organização com IA integrada rodando localmente. Permite criar, categorizar e pesquisar anotações, com recursos avançados de inteligência artificial para sugerir conexões, gerar resumos e organizar informações sem depender de serviços na nuvem.
+                        </p>
+                        <a href="#" class="inline-block bg-amber-500 hover:bg-amber-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition duration-300">
+                            <i class="fab fa-github mr-1"></i> Ver no GitHub
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Project 9 (MeusLinks) -->
+            <div class="project-card h-80 relative">
+                <div class="project-inner h-full w-full rounded-xl shadow-md overflow-hidden">
+                    <div class="project-front h-full bg-gradient-to-br from-pink-50 to-pink-100 p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800">MeusLinks</h3>
+                                <p class="text-sm text-pink-600">Organização Web</p>
+                            </div>
+                            <div class="bg-pink-100 text-pink-800 px-2 py-1 rounded-full text-xs">
+                                <i class="fab fa-js mr-1"></i> JavaScript
+                            </div>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4">
+                            Coletor personalizado de links e recursos online.
+                        </p>
+                        <div class="absolute bottom-6 left-6 right-6">
+                            <div class="flex justify-between items-center">
+                                <span class="text-xs text-gray-500"></span>
+                                <span class="text-pink-500 text-sm font-medium animate-pulse">
+                                    <i class="fas fa-arrow-right"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-back h-full bg-gradient-to-br from-pink-100 to-pink-200 p-6 overflow-auto">
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">MeusLinks</h3>
+                        <p class="text-gray-600 text-sm mb-4">
+                            Aplicativo web para coletar, organizar e compartilhar links de interesse, permitindo aos usuários manter um repositório personalizado de recursos online.
+                        </p>
+                        <a href="#" class="inline-block bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition duration-300">
+                            <i class="fas fa-external-link-alt mr-1"></i> Acessar MeusLinks
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto mt-10">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold gradient-text inline-block">Entre em Contato</h2>
+            <div class="w-16 h-1 bg-gradient-to-r from-blue-500 to-green-400 mx-auto mt-2"></div>
+            <p class="text-gray-600 mt-4 max-w-2xl mx-auto">
+                Estou sempre aberto a novas oportunidades e colaborações. Sinta-se à vontade para entrar em contato!
+            </p>
+        </div>
+        
+        <div class="flex flex-col md:flex-row gap-8">
+            <div class="md:w-1/2">
+                <div class="bg-white p-8 rounded-xl shadow-sm">
+                    <h3 class="text-xl font-semibold mb-6">Envie uma mensagem</h3>
+                    <form id="contact-form" class="space-y-4" action="mailto:brunotulux20@gmail.com" method="post" enctype="text/plain">
+                        <div>
+                            <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Nome</label>
+                            <input type="text" id="name" name="name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300" required>
+                        </div>
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                            <input type="email" id="email" name="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300" required>
+                        </div>
+                        <div>
+                            <label for="subject" class="block text-sm font-medium text-gray-700 mb-1">Assunto</label>
+                            <input type="text" id="subject" name="subject" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300" required>
+                        </div>
+                        <div>
+                            <label for="message" class="block text-sm font-medium text-gray-700 mb-1">Mensagem</label>
+                            <textarea id="message" name="message" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300" required></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-medium transition duration-300 shadow-md">
+                            Enviar Mensagem
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="md:w-1/2">
+                <div class="bg-white p-8 rounded-xl shadow-sm h-full">
+                    <h3 class="text-xl font-semibold mb-6">Informações de Contato</h3>
+                    <div class="space-y-6">
+                        <div class="flex items-start">
+                            <div class="bg-blue-100 p-3 rounded-full text-blue-500 mr-4">
+                                <i class="fas fa-envelope text-lg"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800">Email</h4>
+                                <p class="text-gray-600">brunotulux20@gmail.com</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="bg-green-100 p-3 rounded-full text-green-500 mr-4">
+                                <i class="fab fa-whatsapp text-lg"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800">WhatsApp</h4>
+                                <p class="text-gray-600">+55 (67) 98104-0401</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="bg-purple-100 p-3 rounded-full text-purple-500 mr-4">
+                                <i class="fab fa-linkedin-in text-lg"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800">LinkedIn</h4>
+                                <p class="text-gray-600">linkedin.com/in/bruno-tulux</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="bg-gray-100 p-3 rounded-full text-gray-500 mr-4">
+                                <i class="fab fa-github text-lg"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800">GitHub</h4>
+                                <p class="text-gray-600">github.com/Kodjaoglanian</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8">
+                        <h4 class="font-medium text-gray-800 mb-4">Redes Sociais</h4>
+                        <div class="flex space-x-4">
+                            <a href="#" class="bg-blue-100 text-blue-500 hover:bg-blue-500 hover:text-white w-10 h-10 rounded-full flex items-center justify-center transition duration-300">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="#" class="bg-blue-400 text-white hover:bg-blue-500 w-10 h-10 rounded-full flex items-center justify-center transition duration-300">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="https://www.instagram.com/tuluxc/" class="bg-pink-100 text-pink-500 hover:bg-pink-500 hover:text-white w-10 h-10 rounded-full flex items-center justify-center transition duration-300">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="https://github.com/Kodjaoglanian" class="bg-gray-800 text-white hover:bg-gray-700 w-10 h-10 rounded-full flex items-center justify-center transition duration-300">
+                                <i class="fab fa-github"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <a href="#" class="text-xl font-bold gradient-text">Bruno Tulux</a>
+                    <p class="text-gray-400 mt-2">Transformando desafios em soluções.</p>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="#about" class="text-gray-400 hover:text-white transition duration-300">Sobre</a>
+                    <a href="#skills" class="text-gray-400 hover:text-white transition duration-300">Habilidades</a>
+                    <a href="#projects" class="text-gray-400 hover:text-white transition duration-300">Projetos</a>
+                    <a href="#contact" class="text-gray-400 hover:text-white transition duration-300">Contato</a>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400 text-sm mb-4 md:mb-0">
+                    © 2023 Bruno Kodjaoglanian Cardoso Tulux. Todos os direitos reservados.
+                </p>
+                <div class="flex space-x-4">
+                    <a href="https://github.com/Kodjaoglanian" class="text-gray-400 hover:text-white transition duration-300">
+                        <i class="fab fa-github"></i>
                     </a>
-                    <a href="https://www.linkedin.com/in/bruno-kodjaoglanian-cardoso-tulux-a70064274" target="_blank" class="contact-icon">
-                        <div>🔗</div>
-                        <span>LinkedIn</span>
+                    <a href="#" class="text-gray-400 hover:text-white transition duration-300">
+                        <i class="fab fa-linkedin-in"></i>
                     </a>
-                    <a href="mailto:brunotulux20@gmail.com" class="contact-icon">
-                        <div>📧</div>
-                        <span>Email</span>
+                    <a href="#" class="text-gray-400 hover:text-white transition duration-300">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="https://www.instagram.com/tuluxc/" class="text-gray-400 hover:text-white transition duration-300">
+                        <i class="fab fa-instagram"></i>
                     </a>
                 </div>
             </div>
-        </section>
-    </main>
-
-    <footer>
-        <p>&copy; 2024 Kodjaoglanian. Todos os direitos reservados.</p>
+        </div>
     </footer>
 
-    <script src="script.js"></script>
-</body>
-</html> 
+    <script>
+        // Mobile menu toggle
+        document.getElementById('menu-toggle').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
 
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    // Close mobile menu if open
+                    const mobileMenu = document.getElementById('mobile-menu');
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                    
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Form submission
+        document.getElementById('contact-form').addEventListener('submit', function(e) {
+            // Don't prevent default so the mailto action can work
+            
+            // Get form values for the email subject and body
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+            
+            // Update the form action with subject and body content dynamically
+            this.action = `mailto:brunotulux20@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(`Nome: ${name}\nEmail: ${email}\n\n${message}`)}`;
+            
+            // Form will naturally submit now
+            alert(`Redirecionando para seu cliente de email com a mensagem para brunotulux20@gmail.com`);
+        });
+
+        // Animation on scroll
+        const fadeElements = document.querySelectorAll('.fade-in');
+        
+        const fadeInOnScroll = function() {
+            for (let i = 0; i < fadeElements.length; i++) {
+                const elem = fadeElements[i];
+                const distInView = elem.getBoundingClientRect().top - window.innerHeight + 20;
+                if (distInView < 0) {
+                    elem.classList.add('fade-in');
+                }
+            }
+        };
+        
+        // Check on initial load
+        fadeInOnScroll();
+        
+        // Check on scrollnos
+        window.addEventListener('scroll', fadeInOnScroll);
+    </script>
+</body>
+</html>
